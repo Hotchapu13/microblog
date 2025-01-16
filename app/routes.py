@@ -4,6 +4,7 @@ from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, login_required, logout_user  # type: ignore
 from app.models import User  # type: ignore
 from urllib.parse import urlparse  # type: ignore
+from datetime import datetime, timezone
 
 
 @app.route('/')
@@ -109,3 +110,10 @@ def user(username):
         {'author': user, 'body': 'Test post #2'},
     ]
     return render_template('user.html', user=user, posts=posts)
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.now(timezone.utc)
+        db.session.commit()
