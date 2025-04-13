@@ -1,8 +1,6 @@
-venv
 venv1
 *.pyc
 logs
 migrations
 app.db
-__pycache__
-app/__pycache__/
+**/__pycache__/
